@@ -574,6 +574,9 @@ function draw() {
       g.fillStyle = "rgb(255,255,255)";
       g.font = "25px Arial";
       var gameovercoment = "FINALSCORE : " + score;
+      var save_score = [{'highscore': score}];
+      var setjson = JSON.stringify(save_score);
+      localStorage.setItem("save_deta_h",setjson);
       var gameovercomentWidth = g.measureText(gameovercoment).width;
       g.fillText(gameovercoment, 340 - gameovercomentWidth, 300);
       //restart
