@@ -89,6 +89,24 @@ function winsound() {
   setTimeout('wincount = true;', 5000);
 }
 
+if(localStorage.getItem('save_deta_h')){
+  var getjson = localStorage.getItem('save_deta_h');
+  var obj = JSON.parse(getjson);
+  console.log(obj[0]['highscore']);
+  highscore = obj[0]['highscore'];
+}else{
+  console.log("初めてのプレイです");
+  highscore = 0;
+}
+if(localStorage.getItem('save_deta_n')){
+  var getjson = localStorage.getItem('save_deta_n');
+  var obj = JSON.parse(getjson);
+  console.log(obj[0]['highscore']);
+  highscore_n = obj[0]['highscore'];
+}else{
+  console.log("初めてのプレイです");
+  highscore_n = 0;
+}
 
 
 
@@ -529,6 +547,7 @@ function update() {
 function draw() {
 
 
+
   g.drawImage(backgroundimage, -1, -3, 484, 483);
   //タイトル
     if(scene == Scenes.gamemain_h){
@@ -543,6 +562,7 @@ function draw() {
     var scoreLabel = "SCORE :  " + score;
     scoreLabelWidth = g.measureText(scoreLabel).width;
     g.fillText(scoreLabel, 450 - scoreLabelWidth, 50);
+
     var gameovercoment = "Hard Mode";
     var gameovercomentWidth = g.measureText(gameovercoment).width;
     g.fillText(gameovercoment, 190 - gameovercomentWidth, 50);
@@ -574,6 +594,11 @@ function draw() {
       g.fillStyle = "rgb(255,255,255)";
       g.font = "25px Arial";
       var gameovercoment = "FINALSCORE : " + score;
+      if(highscore < score){
+        var save_score = [{'highscore': score}];
+        var setjson = JSON.stringify(save_score);
+        localStorage.setItem("save_deta_h",setjson);
+      }
       var gameovercomentWidth = g.measureText(gameovercoment).width;
       g.fillText(gameovercoment, 340 - gameovercomentWidth, 300);
       //restart
@@ -630,6 +655,7 @@ function draw() {
     var scoreLabel = "SCORE :  " + score;
     scoreLabelWidth = g.measureText(scoreLabel).width;
     g.fillText(scoreLabel, 450 - scoreLabelWidth, 50);
+
     g.fillStyle = "rgb(0,0,0)";
     g.font = "30px Arial";
     var gameovercoment = "Nomal Mode";
@@ -668,6 +694,11 @@ function draw() {
       g.fillStyle = "rgb(0,0,0)";
       g.font = "25px Arial";
       var gameovercoment = "FINALSCORE : " + score;
+      if(highscore_n < score){
+        var save_score = [{'highscore': score}];
+        var setjson = JSON.stringify(save_score);
+        localStorage.setItem("save_deta_n",setjson);
+      }
       var gameovercomentWidth = g.measureText(gameovercoment).width;
       g.fillText(gameovercoment, 340 - gameovercomentWidth, 300);
       //restart
@@ -728,6 +759,18 @@ function draw() {
     var gameovercoment = "キーを押すとゲームが始まります";
     var gameovercomentWidth = g.measureText(gameovercoment).width;
     g.fillText(gameovercoment, 465 - gameovercomentWidth, 235);
+
+    g.fillStyle = "rgb(255,0,0)";
+    g.font = "15pt Arial";
+    var scoreLabel = "ハードモードハイスコア:" + highscore;
+    scoreLabelWidth = g.measureText(scoreLabel).width;
+    g.fillText(scoreLabel, 380 - scoreLabelWidth, 150);
+
+    g.fillStyle = "rgb(0,0,255)";
+    g.font = "15pt Arial";
+    var scoreLabel = "ノーマルモードハイスコア:" + highscore_n;
+    scoreLabelWidth = g.measureText(scoreLabel).width;
+    g.fillText(scoreLabel, 380 - scoreLabelWidth, 120);
   }
 
 }
